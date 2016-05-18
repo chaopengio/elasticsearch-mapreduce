@@ -31,8 +31,10 @@ public class Main extends Configured implements Tool {
         options.addOption("es_nodes", true, "es.nodes");
         options.addOption("es_resource", true, "es.resource");
         options.addOption("es_mapping_id", true, "es.mapping.id");
-        options.addOption("es_mapping_setid", true, "es.mapping.setid: true, false");     
-        
+        options.addOption("es_mapping_setid", true, "es.mapping.setid: true, false");
+        options.addOption("es_user", true, "es.net.http.auth.user");
+        options.addOption("es_pswd", true, "es.net.http.auth.pass");
+
         options.addOption("map_mem_mb", true, "mapreduce.map.memory.mb:2048");
         options.addOption("map_java_opts", true, "mapreduce.map.java.opts:Xmx1500m");
         options.addOption("map_sort_mb", true, "mapreduce.task.io.sort.mb:256");
@@ -47,6 +49,13 @@ public class Main extends Configured implements Tool {
         conf.set("mapreduce.map.memory.mb", cmd.getOptionValue("map_mem_mb", "2048"));
         conf.set("mapreduce.map.java.opts", cmd.getOptionValue("map_java_opts", "-Xmx1500m"));
         conf.setInt("mapreduce.task.io.sort.mb", 256);
+
+        String user = cmd.getOptionValue("es_user");
+        String pswd = cmd.getOptionValue("es_pswd");
+        if (user != null && pswd != null) {
+            conf.set("es.net.http.auth.user", user);
+            conf.set("es.net.http.auth.pass", pswd);
+        }
         
         int reducerNum = Integer.parseInt(cmd.getOptionValue("reducernum"));
         
@@ -66,6 +75,7 @@ public class Main extends Configured implements Tool {
             String output = cmd.getOptionValue("outputfile");
             Es2Json.Run(output, outputFormat, reducerNum, conf);
         } else if (method.equalsIgnoreCase("hdfs2es")) {
+            conf.set("es.input.json", "yes");
             String input = cmd.getOptionValue("inputfile");
             String mappingId = cmd.getOptionValue("es_mapping_id");
             if (!mappingId.equalsIgnoreCase("null")) {
