@@ -18,7 +18,6 @@ public class Main extends Configured implements Tool {
         System.exit(res);
     }
     
-    @Override
     public int run(String[] args) throws Exception {
         Options options = new Options();
         CommandLineParser parser = new BasicParser();
