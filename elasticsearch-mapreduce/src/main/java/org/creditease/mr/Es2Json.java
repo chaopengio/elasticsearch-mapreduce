@@ -99,7 +99,7 @@ public class Es2Json {
     public static void Run(String output, String outputFormat, int reducerNum, Configuration conf) 
             throws IOException, ClassNotFoundException, InterruptedException {
         Job job = Job.getInstance(conf);
-        job.setJobName(Es2Json.class.getName());
+//        job.setJobName(Es2Json.class.getName());
         job.setJarByClass(Es2Json.class);
         
         job.setMapOutputKeyClass(Text.class);

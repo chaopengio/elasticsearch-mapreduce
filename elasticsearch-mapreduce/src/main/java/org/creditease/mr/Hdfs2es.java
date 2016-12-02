@@ -45,7 +45,7 @@ public class Hdfs2es {
     public static void Run(String input, Configuration conf) 
             throws IOException, ClassNotFoundException, InterruptedException {
         Job job = Job.getInstance(conf);
-        job.setJobName(Hdfs2es.class.getName());
+//        job.setJobName(Hdfs2es.class.getName());
         job.setJarByClass(Hdfs2es.class);
         
         job.setMapOutputKeyClass(Text.class);
